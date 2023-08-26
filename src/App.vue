@@ -1,24 +1,52 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125"/>
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <HelloWorld msg="You did it!"/>
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
+      <div class="col-12">
+        <p class="fs-2">{{ myName }}</p>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <button type="button" @click="changeName('dede')" class="btn btn-warning">manger la chatte</button>
+      </div>
     </div>
   </header>
 
-  <RouterView />
+  <RouterView/>
 </template>
+
+
+<script lang="ts">
+import {RouterLink, RouterView} from 'vue-router'
+import HelloWorld from './components/HelloWorld.vue'
+import {defineComponent} from "vue";
+
+export default defineComponent({
+  name: 'App',
+  components: {
+    HelloWorld,
+    RouterLink,
+    RouterView
+  },
+  data() {
+    return {
+      myName: null as string,
+    }
+  },
+  methods: {
+    changeName(name: string): string {
+      this.myName = name;
+      return name;
+    }
+  },
+})
+
+</script>
 
 <style scoped>
 header {
