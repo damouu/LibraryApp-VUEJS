@@ -3,17 +3,24 @@
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125"/>
 
     <div class="wrapper">
+      <p>{{ user.at(0) }}</p>
       <HelloWorld msg="You did it!"/>
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
-      <div class="col-12">
-        <p class="fs-2">{{ myName }}</p>
-        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-        <button type="button" @click="changeName('dede')" class="btn btn-warning">manger la chatte</button>
-      </div>
+      <!--      <div class="col-12">-->
+      <!--        <p class="fs-2">{{ myNm }}</p>-->
+      <!--        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="my">-->
+      <!--        <button type="button" @click="changeName(myName)" class="btn btn-warning">manger la chatte</button>-->
+      <!--      </div>-->
+
+      <!--      <div class="col-12">-->
+      <!--        <p class="fs-2">Message is : {{ message }}</p>-->
+      <!--        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="message">-->
+      <!--      </div>-->
+
     </div>
   </header>
 
@@ -24,27 +31,24 @@
 <script lang="ts">
 import {RouterLink, RouterView} from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import {defineComponent} from "vue";
+import User from "@/types/User";
+import {defineComponent, ref} from "vue";
+import JobList from "@/components/JobList.vue";
 
 export default defineComponent({
   name: 'App',
   components: {
     HelloWorld,
     RouterLink,
-    RouterView
-  },
-  data() {
-    return {
-      myName: null as string,
-    }
-  },
-  methods: {
-    changeName(name: string): string {
-      this.myName = name;
-      return name;
-    }
-  },
-})
+    RouterView,
+    JobList,
+  }, setup() {
+    const user = ref<User[]>([
+      {id: 1, name: "dede", email: "dedede", password: "dede"}
+    ])
+    return {user}
+  }
+});
 
 </script>
 

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+defineEmits()
 defineProps<{
   msg: string
 }>()
