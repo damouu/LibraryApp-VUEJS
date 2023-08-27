@@ -1,26 +1,17 @@
 <template>
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125"/>
-
+    <button class="btn btn-warning" @click="handlerClick('name')">name</button>
+    <button class="btn btn-warning" @click="handlerClick('email')">email</button>
+    <button class="btn btn-warning" @click="handlerClick('password')">password</button>
     <div class="wrapper">
-      <p>{{ user.at(0) }}</p>
+      <JobList :jobs="jobs" :order="order"/>
       <HelloWorld msg="You did it!"/>
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
-      <!--      <div class="col-12">-->
-      <!--        <p class="fs-2">{{ myNm }}</p>-->
-      <!--        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="my">-->
-      <!--        <button type="button" @click="changeName(myName)" class="btn btn-warning">manger la chatte</button>-->
-      <!--      </div>-->
-
-      <!--      <div class="col-12">-->
-      <!--        <p class="fs-2">Message is : {{ message }}</p>-->
-      <!--        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="message">-->
-      <!--      </div>-->
-
     </div>
   </header>
 
@@ -31,9 +22,10 @@
 <script lang="ts">
 import {RouterLink, RouterView} from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import User from "@/types/User";
 import {defineComponent, ref} from "vue";
 import JobList from "@/components/JobList.vue";
+import Job from "@/types/Job"
+import type OrderTerm from "@/types/OrderTerm";
 
 export default defineComponent({
   name: 'App',
@@ -43,10 +35,21 @@ export default defineComponent({
     RouterView,
     JobList,
   }, setup() {
-    const user = ref<User[]>([
+    const jobs = ref<Job[]>([
       {id: 1, name: "dede", email: "dedede", password: "dede"}
     ])
-    return {user}
+    const order = ref<OrderTerm>('name')
+    // const handlerClick = (term: OrderTerm) => {
+    //   order.value = term
+    // }  todo maniere d'ecire degeulasse a la javascript de mes couilles
+
+
+    // todo maniere decrire propre mashallah clean
+    function handlerClick(term: OrderTerm) {
+      order.value = term
+    }
+
+    return {jobs, handlerClick, order}
   }
 });
 

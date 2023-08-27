@@ -1,4 +1,4 @@
-interface User {
+interface Job {
     id: number,
     name: string,
     email: string,
