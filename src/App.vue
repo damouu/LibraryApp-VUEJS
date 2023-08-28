@@ -7,51 +7,42 @@
     <div class="wrapper">
       <JobList :jobs="jobs" :order="order"/>
       <HelloWorld msg="You did it!"/>
-
       <nav>
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
     </div>
+    <button class="btn btn-dark" @click="httpGetPokemon()">axios</button>
   </header>
 
   <RouterView/>
 </template>
 
 
-<script lang="ts">
+<script setup lang="ts">
 import {RouterLink, RouterView} from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import {defineComponent, ref} from "vue";
+import {inject, reactive, ref} from "vue";
 import JobList from "@/components/JobList.vue";
 import Job from "@/types/Job"
 import type OrderTerm from "@/types/OrderTerm";
 
-export default defineComponent({
-  name: 'App',
-  components: {
-    HelloWorld,
-    RouterLink,
-    RouterView,
-    JobList,
-  }, setup() {
-    const jobs = ref<Job[]>([
-      {id: 1, name: "dede", email: "dedede", password: "dede"}
-    ])
-    const order = ref<OrderTerm>('name')
-    // const handlerClick = (term: OrderTerm) => {
-    //   order.value = term
-    // }  todo maniere d'ecire degeulasse a la javascript de mes couilles
+const axios = inject('axios');
 
 
-    // todo maniere decrire propre mashallah clean
-    function handlerClick(term: OrderTerm) {
-      order.value = term
-    }
+const jobs = reactive<Job[]>([
+  {id: 1, name: "dede_name", email: "dede_email", password: "dede_password"}
+]);
 
-    return {jobs, handlerClick, order}
-  }
-});
+const order = ref<OrderTerm>('name');
+
+function handlerClick(term: OrderTerm) {
+  order.value = term
+}
+
+function httpGetPokemon() {
+  axios.get('/pokemon/blastoise');
+}
 
 </script>
 
