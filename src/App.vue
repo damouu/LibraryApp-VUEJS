@@ -41,7 +41,7 @@ function handlerClick(term: OrderTerm) {
 }
 
 function httpGetPokemon() {
-  axios.get('/pokemon/blastoise');
+  axios.get('/book/');
 }
 
 </script>
