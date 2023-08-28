@@ -10,23 +10,19 @@
 </template>
 
 
-<script lang="ts">
-import {defineComponent, PropType} from "vue";
+<script setup lang="ts">
+import {PropType} from "vue";
 import type OrderTerm from "@/types/OrderTerm";
 
-function subscribeUser() {
-  console.log("form submitted! do something");
-}
-export default defineComponent({
-  props: {
-    jobs: {
-      require: true,
-      type: Array as PropType<Job[]>
-    },
-    order: {
-      require: true,
-      type: String as PropType<OrderTerm>
-    }
+
+defineProps({
+  jobs: {
+    require: true,
+    type: Array as PropType<Job[]>
+  },
+  order: {
+    require: true,
+    type: String as PropType<OrderTerm>
   }
 });
 </script>
