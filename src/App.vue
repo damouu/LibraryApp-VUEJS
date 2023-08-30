@@ -1,47 +1,29 @@
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125"/>
-    <button class="btn btn-warning" @click="handlerClick('name')">name</button>
-    <button class="btn btn-warning" @click="handlerClick('email')">email</button>
-    <button class="btn btn-warning" @click="handlerClick('password')">password</button>
-    <div class="wrapper">
-      <JobList :jobs="jobs" :order="order"/>
-      <HelloWorld msg="You did it!"/>
+  <div class="row">
+    <div class="col-3">
+      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125"/>
+    </div>
+    <div class="col-8">
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/">ホームページ</RouterLink>
+        <RouterLink to="/about">お知らせ</RouterLink>
+        <RouterLink to="/student">学生のページ</RouterLink>
       </nav>
     </div>
-    <button class="btn btn-dark" @click="httpGetPokemon()">axios</button>
-  </header>
-
+  </div>
   <RouterView/>
 </template>
 
 
 <script setup lang="ts">
-import {RouterLink, RouterView} from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import {inject, reactive, ref} from "vue";
-import JobList from "@/components/JobList.vue";
-import Job from "@/types/Job"
+import {RouterLink} from 'vue-router'
 import type OrderTerm from "@/types/OrderTerm";
-
-const axios = inject('axios');
-
-
-const jobs = reactive<Job[]>([
-  {id: 1, name: "dede_name", email: "dede_email", password: "dede_password"}
-]);
+import {ref} from "vue";
 
 const order = ref<OrderTerm>('name');
 
 function handlerClick(term: OrderTerm) {
   order.value = term
-}
-
-function httpGetPokemon() {
-  axios.get('/book/');
 }
 
 </script>
