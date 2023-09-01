@@ -18,6 +18,19 @@
     </tr>
     </tbody>
   </table>
+  <div class="row column-gap-1">
+    <div class="col-5 offset-3">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center pagination-lg">
+          <li class="page-item"><a class="page-link" href="#" @click="previousButtonClick">Previous</a></li>
+          <li class="page-item"><a class="page-link active" href="#">{{ pageNumber }} </a></li>
+          <li class="page-item"><a class="page-link" href="#">{{ pageNumber + 1 }} </a></li>
+          <li class="page-item"><a class="page-link" href="#">{{ pageNumber + 2 }} </a></li>
+          <li class="page-item"><a class="page-link" href="#" @click="nextButtonClick">Next</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
 </template>
 
 
@@ -29,8 +42,79 @@ const axios = inject('axios');
 
 const studentsList = reactive<Student[]>([]);
 
+let pageNumber: Number = 1;
+let sizeNumber: Number = 5;
+
+function previousButtonClick() {
+  if (sizeNumber != 5) {
+    sizeNumber--;
+    if (pageNumber > 1) {
+      pageNumber--;
+    } else {
+      sizeNumber = 5;
+      if (pageNumber >= 1) {
+        pageNumber--;
+      } else {
+        pageNumber = 0;
+      }
+    }
+  } else {
+    pageNumber--;
+  }
+  axios.get('/student?page=' + pageNumber.valueOf() + '&size=' + sizeNumber).then(response => {
+    let students = response.data;
+    studentsList.length = 0;
+    students.forEach(student => {
+      const newStudent = <Student>({
+        uuid: student.uuid,
+        name: student.name,
+        email: student.email,
+        dob: student.dob,
+      })
+      studentsList.push(newStudent)
+    })
+  });
+}
+
+function searchPageSize(pageSize: Number, sizeNumber: Number) {
+  axios.get('/student?page=' + pageNumber + '&size=' + sizeNumber).then(response => {
+    let students = response.data;
+    studentsList.length = 0;
+    students.forEach(student => {
+      const newStudent = <Student>({
+        uuid: student.uuid,
+        name: student.name,
+        email: student.email,
+        dob: student.dob,
+      })
+      studentsList.push(newStudent)
+    })
+  });
+}
+
+function nextButtonClick() {
+  if (sizeNumber != 5) {
+    sizeNumber++;
+  } else {
+    pageNumber++;
+  }
+  axios.get('/student?page=' + pageNumber + '&size=' + sizeNumber).then(response => {
+    let students = response.data;
+    studentsList.length = 0;
+    students.forEach(student => {
+      const newStudent = <Student>({
+        uuid: student.uuid,
+        name: student.name,
+        email: student.email,
+        dob: student.dob,
+      })
+      studentsList.push(newStudent)
+    })
+  });
+}
+
 onMounted(() => {
-  axios.get('/student/').then(response => {
+  axios.get('/student?page=' + pageNumber + '&size=' + sizeNumber).then(response => {
     let students = response.data;
     students.forEach(student => {
       const newStudent = <Student>({
