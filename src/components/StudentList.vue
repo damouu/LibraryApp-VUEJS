@@ -21,12 +21,21 @@
   <div class="row column-gap-1">
     <div class="col-5 offset-3">
       <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center pagination-lg">
-          <li class="page-item"><a class="page-link" href="#" @click="previousButtonClick">Previous</a></li>
-          <li class="page-item"><a class="page-link active" href="#">{{ pageNumber }} </a></li>
-          <li class="page-item"><a class="page-link" href="#">{{ pageNumber + 1 }} </a></li>
-          <li class="page-item"><a class="page-link" href="#">{{ pageNumber + 2 }} </a></li>
-          <li class="page-item"><a class="page-link" href="#" @click="nextButtonClick">Next</a></li>
+        <ul ref="peep" class="pagination justify-content-center pagination-lg">
+          <a class="page-link" href="#" aria-label="Previous" @click="previousButtonClick(pagesNumber[0]-3)">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+          <li class="page-item"><a class='page-link active' @click="nextButtonClick(pagesNumber[0])">{{
+              pagesNumber[0]
+            }} </a>
+          </li>
+          <li class="page-item"><a class='page-link' @click="nextButtonClick(pagesNumber[1])">{{ pagesNumber[1] }} </a>
+          </li>
+          <li class="page-item"><a class='page-link' @click="nextButtonClick(pagesNumber[2])">{{ pagesNumber[2] }} </a>
+          </li>
+          <a class="page-link" href="#" aria-label="Next" @click="nextButtonClick(1+pagesNumber[2])">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
         </ul>
       </nav>
     </div>
@@ -35,70 +44,48 @@
 
 
 <script setup lang="ts">
-import {inject, onMounted, PropType, reactive} from "vue";
+import {inject, onMounted, PropType, reactive, ref} from "vue";
 import type OrderTerm from "@/types/OrderTerm";
 
 const axios = inject('axios');
-
 const studentsList = reactive<Student[]>([]);
+const pageNumber = ref(0);
+const sizeNumber = ref(5);
+let pagesNumber: Number[] = [0, 1, 2];
 
-let pageNumber: Number = 1;
-let sizeNumber: Number = 5;
 
-function previousButtonClick() {
-  if (sizeNumber != 5) {
-    sizeNumber--;
-    if (pageNumber > 1) {
-      pageNumber--;
-    } else {
-      sizeNumber = 5;
-      if (pageNumber >= 1) {
-        pageNumber--;
-      } else {
-        pageNumber = 0;
-      }
-    }
+function previousButtonClick(page: Number) {
+  if (page < 0) {
+    alert('trying to go beyond 0 value')
   } else {
-    pageNumber--;
-  }
-  axios.get('/student?page=' + pageNumber.valueOf() + '&size=' + sizeNumber).then(response => {
-    let students = response.data;
-    studentsList.length = 0;
-    students.forEach(student => {
-      const newStudent = <Student>({
-        uuid: student.uuid,
-        name: student.name,
-        email: student.email,
-        dob: student.dob,
+    pagesNumber[2] = pagesNumber[0] - 1;
+    pagesNumber[1] = pagesNumber[2] - 1;
+    pagesNumber[0] = pagesNumber[1] - 1;
+    pageNumber.value--;
+    axios.get('/student?page=' + page + '&size=' + sizeNumber.value).then(response => {
+      let students = response.data;
+      studentsList.length = 0;
+      students.forEach(student => {
+        const newStudent = <Student>({
+          uuid: student.uuid,
+          name: student.name,
+          email: student.email,
+          dob: student.dob,
+        })
+        studentsList.push(newStudent)
       })
-      studentsList.push(newStudent)
-    })
-  });
+    });
+  }
 }
 
-function searchPageSize(pageSize: Number, sizeNumber: Number) {
-  axios.get('/student?page=' + pageNumber + '&size=' + sizeNumber).then(response => {
-    let students = response.data;
-    studentsList.length = 0;
-    students.forEach(student => {
-      const newStudent = <Student>({
-        uuid: student.uuid,
-        name: student.name,
-        email: student.email,
-        dob: student.dob,
-      })
-      studentsList.push(newStudent)
-    })
-  });
-}
-
-function nextButtonClick() {
-  if (sizeNumber != 5) {
-    sizeNumber++;
-  } else {
-    pageNumber++;
+function nextButtonClick(page: Number) {
+  if (page > pagesNumber[2]) {
+    pagesNumber[0] = pagesNumber[2] + 1;
+    pagesNumber[1] = pagesNumber[0] + 1;
+    pagesNumber[2] = pagesNumber[0] + 2;
+    pageNumber.value++;
   }
-  axios.get('/student?page=' + pageNumber + '&size=' + sizeNumber).then(response => {
+  axios.get('/student?page=' + page + '&size=' + sizeNumber.value).then(response => {
     let students = response.data;
     studentsList.length = 0;
     students.forEach(student => {
@@ -114,7 +101,7 @@ function nextButtonClick() {
 }
 
 onMounted(() => {
-  axios.get('/student?page=' + pageNumber + '&size=' + sizeNumber).then(response => {
+  axios.get('/student?page=' + pageNumber.value + '&size=' + sizeNumber.value).then(response => {
     let students = response.data;
     students.forEach(student => {
       const newStudent = <Student>({
