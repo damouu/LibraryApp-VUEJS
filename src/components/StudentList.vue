@@ -22,9 +22,9 @@
     <div class="col-5 offset-3">
       <nav aria-label="Page navigation example">
         <ul ref="peep" class="pagination justify-content-center pagination-lg">
-          <a class="page-link" :class="{active: activeList[0].value, disabled: isDisabled}" href="#"
+          <a class="page-link" :class="{ disabled: isDisabled}" href="#"
              aria-label="Previous"
-             @click="previousButtonClick(pagesNumber[0]-3)">
+             @click="backButtonClick(pagesNumber[0]-3)">
             <span aria-hidden="true">&laquo;</span>
           </a>
           <li class="page-item"><a class='page-link ' :class="{active: activeList[0].value}"
@@ -79,14 +79,23 @@ function toggleClass(pageClickedToToggle) {
   activeList[pageClickedToToggle].value = !activeList[pageClickedToToggle].value
 }
 
-function previousButtonClick(page: Number) {
+function backButtonClick(page: Number) {
   if (page < 0) {
-    alert('trying to go beyond 0 value')
+    isDisabled.value = true
   } else {
+    for (const key in activeList) {
+      if (activeList[key].value == true)
+        var indexOfTrue = key;
+    }
+    activeList[indexOfTrue].value = false;
+    activeList[0].value = true;
     pagesNumber[2] = pagesNumber[0] - 1;
     pagesNumber[1] = pagesNumber[2] - 1;
     pagesNumber[0] = pagesNumber[1] - 1;
     pageNumber.value--;
+    if (pagesNumber[0] == 0) {
+      isDisabled.value = true;
+    }
     axios.get('/student?page=' + page + '&size=' + sizeNumber.value).then(response => {
       let students = response.data;
       studentsList.length = 0;
@@ -109,6 +118,7 @@ function nextButtonClick(page: Number, clickedPage: Number) {
       var indexOfTrue = key;
   }
   if (indexOfTrue != clickedPage) {
+    isDisabled.value = page <= 0;
     if (page > pagesNumber[2]) {
       pagesNumber[0] = pagesNumber[2] + 1;
       pagesNumber[1] = pagesNumber[0] + 1;
