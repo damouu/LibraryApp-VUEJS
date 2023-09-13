@@ -1,60 +1,76 @@
 <template>
-  <h2>学生の情報に関しては以下に表示されております。</h2>
-  <table class="table table-hover">
-    <thead>
-    <tr>
-      <th scope="col">uuid</th>
-      <th scope="col">名前</th>
-      <th scope="col">メール</th>
-      <th scope="col">生年月日</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr v-for="student in studentsList">
-      <th scope="row">{{ student.uuid }}</th>
-      <td>{{ student.name }}</td>
-      <td>{{ student.email }}</td>
-      <td>{{ student.dob }}</td>
-    </tr>
-    </tbody>
-  </table>
-  <div class="row column-gap-1">
-    <div class="col-5 offset-3">
-      <nav aria-label="Page navigation example">
-        <ul ref="peep" class="pagination justify-content-center pagination-lg">
-          <a class="page-link" :class="{ disabled: isDisabled}" href="#"
-             aria-label="Previous"
-             @click="backButtonClick(pagesNumber[0]-3)">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-          <li class="page-item"><a class='page-link ' :class="{active: activeList[0].value}"
-                                   @click="nextButtonClick(pagesNumber[0],0); toggleClass(0);">{{
-              pagesNumber[0]
-            }} </a>
-          </li>
-          <li class="page-item"><a class='page-link' :class="{active: activeList[1].value}"
-                                   @click=" nextButtonClick(pagesNumber[1],1); toggleClass(1);">{{
-              pagesNumber[1]
-            }} </a>
-          </li>
-          <li class="page-item"><a class='page-link' :class="{active: activeList[2].value}"
-                                   @click="nextButtonClick(pagesNumber[2],2); toggleClass(2);">{{
-              pagesNumber[2]
-            }} </a>
-          </li>
-          <a class="page-link" href="#" aria-label="Next" @click="nextButtonClick(1+pagesNumber[2])">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </ul>
-      </nav>
+  <div class="row">
+    <article>
+      <section>
+        <p class="text-warning">test section</p>
+      </section>
+    </article>
+  </div>
+  <div v-if="studentsList.length !=0 ">
+    <div class="row">
+      <h2>学生の情報に関しては以下に表示されております。</h2>
     </div>
+    <div class="row">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th scope="col">uuid</th>
+          <th scope="col">名前</th>
+          <th scope="col">メール</th>
+          <th scope="col">生年月日</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="student in studentsList">
+          <th scope="row">{{ student.uuid }}</th>
+          <td>{{ student.name }}</td>
+          <td>{{ student.email }}</td>
+          <td>{{ student.dob }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row">
+      <div class="col-5 offset-3">
+        <nav aria-label="Page navigation example">
+          <ul ref="peep" class="pagination justify-content-center pagination-lg">
+            <a class="page-link" :class="{ disabled: isDisabled}" href="#"
+               aria-label="Previous"
+               @click="backButtonClick(pagesNumber[0]-3)">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+            <li class="page-item"><a class='page-link ' :class="{active: activeList[0].value}"
+                                     @click="nextButtonClick(pagesNumber[0],0); toggleClass(0);">{{
+                pagesNumber[0]
+              }} </a>
+            </li>
+            <li class="page-item"><a class='page-link' :class="{active: activeList[1].value}"
+                                     @click=" nextButtonClick(pagesNumber[1],1); toggleClass(1);">{{
+                pagesNumber[1]
+              }} </a>
+            </li>
+            <li class="page-item"><a class='page-link' :class="{active: activeList[2].value}"
+                                     @click="nextButtonClick(pagesNumber[2],2); toggleClass(2);">{{
+                pagesNumber[2]
+              }} </a>
+            </li>
+            <a class="page-link" href="#" aria-label="Next" @click="nextButtonClick(1+pagesNumber[2])">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <NodataFound/>
   </div>
 </template>
 
 
 <script setup lang="ts">
-import {inject, onMounted, PropType, reactive, ref} from "vue";
-import type OrderTerm from "@/types/OrderTerm";
+import {inject, onMounted, reactive, ref} from "vue";
+import NodataFound from "@/components/NodataFound.vue";
 
 const axios = inject('axios');
 const studentsList = reactive<Student[]>([]);
@@ -158,15 +174,4 @@ onMounted(() => {
   });
 });
 
-
-defineProps({
-  students: {
-    require: false,
-    type: Array as PropType<Student[]>
-  },
-  order: {
-    require: false,
-    type: String as PropType<OrderTerm>
-  }
-});
 </script>
