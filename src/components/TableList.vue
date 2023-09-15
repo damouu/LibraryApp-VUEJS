@@ -1,11 +1,12 @@
 <template>
-  <table class="table table-hover">
+  <table class="table table-dark table-hover">
     <thead>
     <tr>
       <th scope="col">uuid</th>
       <th scope="col">名前</th>
       <th scope="col">メール</th>
       <th scope="col">生年月日</th>
+      <th scope="col">アイコン</th>
     </tr>
     </thead>
     <tbody>
