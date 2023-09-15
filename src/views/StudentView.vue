@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import StudentList from '../components/StudentList.vue'
 </script>
-
 <template>
   <main>
-    <StudentList/>
+    <StudentList japanese="学生" english="student" type="Student"/>
   </main>
 </template>
