@@ -3,12 +3,14 @@ export class Student {
     private _name: string;
     private _email: string;
     private _dob: string;
+    private _studentIdCard?: String;
 
-    constructor(uuid: string, name: string, email: string, dob: string) {
+    constructor(uuid: string, name: string, email: string, dob: string, studentIdCard: String) {
         this._uuid = uuid;
         this._name = name;
         this._email = email;
         this._dob = dob;
+        this._studentIdCard = studentIdCard;
     }
 
     get uuid(): string {
@@ -41,5 +43,14 @@ export class Student {
 
     set dob(value: string) {
         this._dob = value;
+    }
+
+
+    get studentIdCard(): string {
+        return this._studentIdCard;
+    }
+
+    set studentIdCard(value: string) {
+        this._studentIdCard = value;
     }
 }
