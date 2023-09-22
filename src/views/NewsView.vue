@@ -1,5 +1,5 @@
 <template>
-  <section class="row mb-5">
+  <section class="row">
     <div>
       <TitleMessage title="フォトギャラリー"/>
     </div>
