@@ -1,12 +1,14 @@
 <template>
   <div class="row">
     <nav class="navbar navbar-expand-lg navbar-light bg-success position-fixed fixed-top border border-primary">
-      <ButtonCheck/>
+      <RouterLink to="/" class="nav-link active" aria-current="page">
+        <ButtonCheck/>
+      </RouterLink>
       <div class="collapse navbar-collapse offset-4 gx-3" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-center mt-3">
           <li class="nav-item me-3">
             <i class="bi bi-book-fill h4"></i>
-            <RouterLink to="/" class="nav-link active" aria-current="page">ブック</RouterLink>
+            <RouterLink to="/book" class="nav-link active" aria-current="page">ブック</RouterLink>
           </li>
           <li class="nav-item me-2">
             <i class="bi bi-newspaper h4"></i>
