@@ -1,5 +1,5 @@
 <template>
   <button class="btn rounded ms-2 me-2">
-    <i class="bi bi-chat-quote"></i>
+    <i class="bi bi-chat-quote h4">VueApp</i>
   </button>
 </template>
