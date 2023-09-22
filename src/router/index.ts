@@ -26,6 +26,12 @@ const router = createRouter({
             name: 'printData',
             component: DataView,
             props: true,
+        },
+        {
+            path: '/book',
+            name: 'book',
+            component: NewsView,
+            props: true,
         }
     ]
 })
