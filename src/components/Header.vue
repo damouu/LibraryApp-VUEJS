@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light position-fixed fixed-top border border-danger">
+  <nav class="navbar navbar-expand-lg navbar-light bg-success position-fixed fixed-top border border-primary">
     <ButtonCheck/>
     <a class="navbar-brand">VueApp</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -18,6 +18,7 @@
     </div>
   </nav>
 </template>
+
 <script setup lang="ts">
 import ButtonCheck from "@/components/ButtonCheck.vue";
 import FormSearch from "@/components/FormSearch.vue";
