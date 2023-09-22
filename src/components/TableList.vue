@@ -14,10 +14,18 @@
       <th scope="row">{{ student.uuid }}</th>
       <td>{{ student.name }}</td>
       <td>{{ student.email }}</td>
-      <td>{{ student.dob }}</td>
+      <td> {{ student.dob }}</td>
       <td>
-        <button class="btn btn-primary rounded  rounded-circle border border-primary"><i
-            class="bi bi-person-circle"></i></button>
+        <div v-if="student.studentIdCard">
+          <router-link :to="{name: 'printData', params: {uuid: student.studentIdCard}}">
+            <button class="btn btn-primary rounded  rounded-circle border border-primary">
+              <i class="bi bi-person-circle"></i></button>
+          </router-link>
+        </div>
+        <div v-else>
+          <button class="rounded  rounded-circle border border-danger bg-danger">
+            <i class="bi bi-ban"></i></button>
+        </div>
       </td>
     </tr>
     </tbody>
@@ -34,7 +42,7 @@ let studentList: Array<Student> = reactive<Student[]>([]);
 const props = defineProps({
   page: {type: Number, required: true},
   studentList: {type: Array<Student>, required: false},
-})
+});
 
 watch(() => props.page, (first, second) => {
   studentsAxios();
@@ -45,7 +53,13 @@ function studentsAxios() {
     axios.get('/student' + '?page=' + props.page + '&size=' + sizeNumber.value).then(response => {
       studentList.length = 0;
       response.data.forEach(student => {
-        let newStudent = new Student(student.uuid, student.name, student.email, student.dob);
+        let cardUuid;
+        if (student["studentIdCard"] != null) {
+          cardUuid = student.studentIdCard.uuid;
+        } else {
+          cardUuid = null;
+        }
+        let newStudent = new Student(student.uuid, student.name, student.email, student.dob, cardUuid);
         studentList.push(newStudent);
       })
     })
