@@ -2,7 +2,7 @@
   <div v-if="studentList.length !=0">
     <div>
       <section class="row  mb-4">
-        <ArticleSection/>
+        <TitleMessage title="学生の情報に関しては以下に表示されております。"/>
       </section>
     </div>
     <div class="row">
@@ -28,11 +28,11 @@ import TableList from "@/components/TableList.vue";
 import {Student} from "@/types/Student";
 import PaginationTable from "@/components/PaginationTable.vue";
 import NodataFound from "@/components/NodataFound.vue";
-import ArticleSection from "@/components/ArticleSection.vue";
+import TitleMessage from "@/components/TitleMessage.vue";
 
 const axios = inject('axios');
-const pageNumber = ref(0);
-const sizeNumber = ref(10);
+const pageNumber: Number = ref(0);
+const sizeNumber: Number = ref(10);
 const studentList: Array<Student> = reactive<Student[]>([]);
 
 const props = defineProps({
