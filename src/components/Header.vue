@@ -8,7 +8,7 @@
           <RouterLink to="/" class="nav-link active" aria-current="page">ホームページ</RouterLink>
         </li>
         <li class="nav-item">
-          <RouterLink to="/about" class="nav-link active" aria-current="page">お知らせ</RouterLink>
+          <RouterLink to="/news" class="nav-link active" aria-current="page">ニュース</RouterLink>
         </li>
         <li class="nav-item dropdown">
           <RouterLink to="/student" class="nav-link active" aria-current="page">学生のページ</RouterLink>
