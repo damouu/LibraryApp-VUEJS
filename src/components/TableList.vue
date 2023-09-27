@@ -10,7 +10,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="student in studentList">
+    <tr v-for="student in store.studentList">
       <th scope="row">{{ student.uuid }}</th>
       <td>{{ student.name }}</td>
       <td>{{ student.email }}</td>
@@ -33,43 +33,19 @@
 </template>
 
 <script setup lang="ts">
-import {inject, onBeforeMount, reactive, ref, watch} from "vue";
-import {Student} from "@/types/Student";
+import {useStudentStore} from "@/stores/Student";
+import {watch} from "vue";
 
-const axios = inject('axios');
-const sizeNumber = ref(10);
-let studentList: Array<Student> = reactive<Student[]>([]);
+const store = useStudentStore();
+store.getStudents(props.page);
+
 const props = defineProps({
-  page: {type: Number, required: true},
-  studentList: {type: Array<Student>, required: false},
+  page: {type: Number, required: false}
 });
 
 watch(() => props.page, (first, second) => {
-  studentsAxios();
+  store.getStudents(props.page);
 });
 
-function studentsAxios() {
-  try {
-    axios.get('/student' + '?page=' + props.page + '&size=' + sizeNumber.value).then(response => {
-      studentList.length = 0;
-      response.data.forEach(student => {
-        let cardUuid;
-        if (student["studentIdCard"] != null) {
-          cardUuid = student.studentIdCard.uuid;
-        } else {
-          cardUuid = null;
-        }
-        let newStudent = new Student(student.uuid, student.name, student.email, student.dob, cardUuid);
-        studentList.push(newStudent);
-      })
-    })
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-onBeforeMount(() => {
-  studentList = props.studentList;
-})
 
 </script>
