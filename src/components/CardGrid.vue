@@ -1,6 +1,6 @@
 <template>
   <div class="row row-cols-1 row-cols-md-5 g-4 mb-5" ref="scrollComponent">
-    <div v-for="book in bookList">
+    <div v-for="book in bookStore.bookList">
       <div class="col">
         <div class="card" style="width: 18rem;">
           <img src="../assets/pokemon-pokemon-red-and-blue-wallpaper-preview.jpg" class="card-img-top" alt="...">
@@ -15,23 +15,13 @@
 </template>
 
 <script setup lang="ts">
+import {onMounted, onUnmounted, ref} from "vue";
+import {useBookStore} from "@/stores/Book";
 
-import {inject, onBeforeMount, onMounted, onUnmounted, reactive, ref} from "vue";
-import {Book} from "@/types/Book";
-
-const axios = inject('axios');
-const pageNumber: Number = ref(0);
-const sizeNumber: Number = ref(20);
+const bookStore = useBookStore();
 const scrollComponent = ref(null);
-const bookList: Array<Book> = reactive<Book[]>([]);
 
-function fetchMoreBooks(): void {
-  axios.get('/book' + '?page=' + (pageNumber.value += 1) + '&size=' + sizeNumber.value).then(response => {
-    response.data.forEach(book => {
-      bookList.push(new Book(book.uuid, book.totalPages, book.title, book.publisher, book.genre, book.created_at, book.author));
-    })
-  })
-}
+bookStore.getBooks();
 
 onMounted(() => {
   window.addEventListener("scroll", handleScroll)
@@ -44,19 +34,8 @@ onUnmounted(() => {
 function handleScroll(): void {
   let element = scrollComponent.value
   if (element.getBoundingClientRect().bottom < window.innerHeight) {
-    fetchMoreBooks();
+    bookStore.fetchMoreBooks();
   }
 }
-
-onBeforeMount(async () => {
-  try {
-    const response = await axios.get('/book' + '?page=' + pageNumber.value + '&size=' + sizeNumber.value);
-    response.data.forEach(book => {
-      bookList.push(new Book(book.uuid, book.totalPages, book.title, book.publisher, book.genre, book.created_at, book.author));
-    });
-  } catch (error) {
-    console.log(error)
-  }
-});
 
 </script>
