@@ -8,7 +8,9 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import instance from "@/plugins/axios";
 
-
-const app = createApp(App).use(router, createPinia());
+const pinia = createPinia();
+const app = createApp(App);
+app.use(router);
+app.use(pinia);
 app.provide('axios', instance);
 app.mount('#app')
