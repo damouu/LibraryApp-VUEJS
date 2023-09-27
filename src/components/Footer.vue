@@ -8,7 +8,7 @@
         <p>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit.
           A consectetur ea excepturi minus numquam, obcaecati rem
-          velit veniam. Deleniti minima mollitia nemo quae.
+          vellllit veniam. Deleniti minima mollitia nemo quae.
         </p>
       </div>
       <div class="col">
