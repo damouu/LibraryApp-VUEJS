@@ -1,0 +1,62 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - test
+
+jobs:
+  Test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+      - name: npm test
+        id: run_tests
+        run: npm test
+
+      - uses: actions/checkout@v3
+      - name: Create an issue
+        if: ${{ failure() }}
+        uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          actor: ${{ github.actor }}
+          test: duplicate
+          sha: ${{ steps.AWS.outputs.GITHUB_SHA_SHORT }}
+          error: ${{ steps.mvn_test_error.outputs.msg }}
+          error_short: ${{ steps.mvn_test_error_short.outputs.msg }}
+        with:
+          assignees: ${{ github.actor }}
+          update_existing: true
+          search_existing: open
+
+      - name: Add TestFailed
+        if: ${{ failure() }}
+        uses: devops-infra/action-commit-push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          commit_prefix: ${{ github.event.head_commit.message }} TestFailed
+
+      - name: Add TestsPassed
+        if: ${{ success() }}
+        uses: devops-infra/action-commit-push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          commit_prefix: ${{ github.event.head_commit.message }} TestsPassed
+
+      - name: pull-request
+        if: ${{ success() }}
+        uses: repo-sync/pull-request@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.MYWORKFLOW  }}
+        with:
+          GITHUB_TOKEN: ${{ secrets.MYWORKFLOW  }}
+          source_branch: "test"
+          destination_branch: "main"
+          pr_title: ${{ github.event.head_commit.message }}
+          pr_body: ${{ github.event.head_commit.message }}
+          pr_label: "Staging,TestsPassed"
+          pr_assignee: "damouu"
