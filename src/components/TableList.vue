@@ -10,7 +10,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="student in store.studentList">
+    <tr v-for="student in store.studentList" :key="student.uuid">
       <th scope="row">{{ student.uuid }}</th>
       <td>{{ student.name }}</td>
       <td>{{ student.email }}</td>
