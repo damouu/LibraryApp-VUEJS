@@ -1,30 +1,28 @@
 <template>
   <div class="row">
     <nav class="navbar navbar-expand-lg navbar-light bg-success position-fixed fixed-top border border-primary">
-      <RouterLink to="/" class="nav-link active" aria-current="page">
-        <ButtonCheck/>
-      </RouterLink>
+      <ButtonCheck/>
       <div class="collapse navbar-collapse offset-4 gx-3" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-center mt-3">
           <li class="nav-item me-3">
             <i class="bi bi-book-fill h4"></i>
-            <RouterLink to="/book" class="nav-link active" aria-current="page">ブック</RouterLink>
+            <RouterLink aria-current="page" class="nav-link active" to="/book">Books</RouterLink>
           </li>
-          <li class="nav-item me-2">
+          <li class="nav-item me-3">
             <i class="bi bi-newspaper h4"></i>
-            <RouterLink to="/news" class="nav-link active" aria-current="page">ニュース</RouterLink>
+            <RouterLink aria-current="page" class="nav-link active" to="/news">Gallery</RouterLink>
           </li>
-          <li class="nav-item dropdown me-4 ms-1">
+          <li class="nav-item dropdown me-3 ms-2">
             <i class="bi bi-backpack2-fill h4"></i>
-            <RouterLink to="/student" class="nav-link active" aria-current="page">学生</RouterLink>
+            <RouterLink aria-current="page" class="nav-link active" to="/student">Students</RouterLink>
           </li>
           <li class="nav-item dropdown">
             <i class="bi bi-journal-bookmark-fill h4"></i>
-            <RouterLink to="/student" class="nav-link active" aria-current="page">授業</RouterLink>
+            <RouterLink aria-current="page" class="nav-link active" to="/coures">Courses</RouterLink>
           </li>
-          <li class="nav-item dropdown ms-4">
+          <li class="nav-item dropdown ms-3">
             <i class="bi bi-mortarboard-fill h4"></i>
-            <RouterLink to="/student" class="nav-link active" aria-current="page">教師</RouterLink>
+            <RouterLink aria-current="page" class="nav-link active" to="/teachers">Teachers</RouterLink>
           </li>
         </ul>
         <div>
