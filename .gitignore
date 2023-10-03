@@ -28,4 +28,3 @@ coverage
 *.sw?
 .eslintrc.cjs
 env.d.ts
-package-lock.json
