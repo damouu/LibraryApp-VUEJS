@@ -41,16 +41,17 @@ jobs:
           update_existing: true
           search_existing: open
 
-      - name: TestFailed
-        if: ${{ failure() }}
-        uses: devops-infra/action-commit-push@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          commit_prefix: ${{ github.event.head_commit.message }} Show-stopper TestFailed
+      #      - name: TestFailed
+      #        if: ${{ failure() }}
+      #        uses: devops-infra/action-commit-push@master
+      #        with:
+      #          github_token: ${{ secrets.GITHUB_TOKEN }}
+      #          commit_prefix: ${{ github.event.head_commit.message }} Show-stopper TestFailed
 
       - name: TestsPassed
         if: ${{ success() }}
         uses: actions/checkout@v3
+      - name: Change something
         run: echo -n "dede" | cat > ./.github/text.txt
 
 #      - name: pull-request
