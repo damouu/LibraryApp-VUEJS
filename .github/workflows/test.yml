@@ -47,7 +47,7 @@ jobs:
         uses: devops-infra/action-commit-push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          commit_prefix: ${{ github.event.head_commit.message }} "Show-stopper TestFailed"
+          commit_prefix: Show-stopper TestFailed
 
       - name: TestsPassed
         if: ${{ success() }}
