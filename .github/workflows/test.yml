@@ -52,7 +52,7 @@ jobs:
         if: ${{ success() }}
         uses: actions/checkout@v3
       - name: Change something
-        run:  echo 'dede' >> text.txt
+        run: find . -name text.txt | xargs sed -i '1iadd text here'
 
 #      - name: pull-request
 #        if: ${{ success() }}
