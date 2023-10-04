@@ -50,8 +50,10 @@ jobs:
 
       - name: TestsPassed
         if: ${{ success() }}
-        uses: actions/checkout@v3
-        run: echo -n "dede" | cat > ./.github/text.txt
+        uses: devops-infra/action-commit-push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          commit_prefix: ${{ github.event.head_commit.message }} Done Unassigned TestsPassed Done
 
 #      - name: pull-request
 #        if: ${{ success() }}
