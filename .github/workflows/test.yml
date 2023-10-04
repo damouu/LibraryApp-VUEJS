@@ -41,32 +41,37 @@ jobs:
           update_existing: true
           search_existing: open
 
-      - name: TestFailed
+      - name: TestFailed change something
         if: ${{ failure() }}
+        uses: actions/checkout@v3
+        run: echo -n "dede" | cat > ./.github/text.txt
+      - name: Commit and push changes
         uses: devops-infra/action-commit-push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           commit_prefix: ${{ github.event.head_commit.message }} Show-stopper TestFailed
 
-      - name: TestsPassed
+
+      - name: TestsPassed change something
         if: ${{ success() }}
+        uses: actions/checkout@v3
+        run: echo -n "dede" | cat > ./.github/text.txt
+      - name: Commit and push changes
         uses: devops-infra/action-commit-push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          amend: true
-          add_timestamp: true
           commit_prefix: ${{ github.event.head_commit.message }} Done Unassigned TestsPassed Done
 
-      - name: pull-request
-        if: ${{ success() }}
-        uses: repo-sync/pull-request@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.MYWORKFLOW  }}
-        with:
-          GITHUB_TOKEN: ${{ secrets.MYWORKFLOW  }}
-          source_branch: "test"
-          destination_branch: "main"
-          pr_title: ${{ github.event.head_commit.message }}
-          pr_body: ${{ github.event.head_commit.message }}
-          pr_label: "Staging,TestsPassed"
-          pr_assignee: "damouu"
+#      - name: pull-request
+#        if: ${{ success() }}
+#        uses: repo-sync/pull-request@v2
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.MYWORKFLOW  }}
+#        with:
+#          GITHUB_TOKEN: ${{ secrets.MYWORKFLOW  }}
+#          source_branch: "test"
+#          destination_branch: "main"
+#          pr_title: ${{ github.event.head_commit.message }}
+#          pr_body: ${{ github.event.head_commit.message }}
+#          pr_label: "Staging,TestsPassed"
+#          pr_assignee: "damouu"
