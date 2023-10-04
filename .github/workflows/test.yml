@@ -41,22 +41,26 @@ jobs:
           update_existing: true
           search_existing: open
 
+
       - name: TestFailed change something
         if: ${{ failure() }}
         uses: actions/checkout@v3
         run: echo -n "dede" | cat > ./.github/text.txt
-      - name: Commit and push changes
+
+      - name: TestFailed
+        if: ${{ failure() }}
         uses: devops-infra/action-commit-push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           commit_prefix: ${{ github.event.head_commit.message }} Show-stopper TestFailed
 
-
       - name: TestsPassed change something
         if: ${{ success() }}
         uses: actions/checkout@v3
         run: echo -n "dede" | cat > ./.github/text.txt
-      - name: Commit and push changes
+
+      - name: TestsPassed
+        if: ${{ success() }}
         uses: devops-infra/action-commit-push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
