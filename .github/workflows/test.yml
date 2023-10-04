@@ -52,7 +52,7 @@ jobs:
         if: ${{ success() }}
         uses: DamianReeves/write-file-action@v1.2
         with:
-          path: README.md
+          path: ./README.md
           write-mode: overwrite
           contents: |
             console.log('some contents')
