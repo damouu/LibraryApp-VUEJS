@@ -53,7 +53,9 @@ jobs:
         uses: devops-infra/action-commit-push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          amend: true -m "dedede"
+          amend: true
+          add_timestamp: true
+          commit_prefix: ${{ github.event.head_commit.message }} Done Unassigned TestsPassed Done
 
       - name: pull-request
         if: ${{ success() }}
