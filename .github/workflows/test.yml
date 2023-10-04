@@ -50,7 +50,6 @@ jobs:
 
       - name: TestsPassed
         if: ${{ success() }}
-        uses: DamianReeves/write-file-action@v1.2
         run: git commit --amend -m "Done TestsPassed"
 
 #      - name: pull-request
