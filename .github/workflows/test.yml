@@ -50,9 +50,12 @@ jobs:
 
       - name: TestsPassed
         if: ${{ success() }}
-        uses: actions/checkout@v3
-      - name: Change something
-        run: pwd | ls | sed -i '1i dede' README.md
+        uses: "DamianReeves/write-file-action@master"
+        with:
+          path: README.md
+          write-mode: append
+          contents: |
+            console.log('some contents')
 
 #      - name: pull-request
 #        if: ${{ success() }}
