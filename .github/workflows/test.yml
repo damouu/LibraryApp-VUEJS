@@ -21,7 +21,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-#      - run: npm run build --if-present
+      #      - run: npm run build --if-present
       - run: npm ci
       - run: npm run test
         name: Execute Unit tests
@@ -42,14 +42,14 @@ jobs:
           update_existing: true
           search_existing: open
 
-      - name: Add TestFailed
+      - name: TestFailed
         if: ${{ failure() }}
         uses: devops-infra/action-commit-push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           commit_prefix: ${{ github.event.head_commit.message }} TestFailed
 
-      - name: Add TestsPassed
+      - name: TestsPassed
         if: ${{ success() }}
         uses: devops-infra/action-commit-push@master
         with:
