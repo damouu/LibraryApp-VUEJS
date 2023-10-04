@@ -52,7 +52,7 @@ jobs:
         if: ${{ success() }}
         uses: actions/checkout@v3
       - name: Change something
-        run: pwd | ls
+        run: find . -maxdepth 1 -name README.md | xargs sed -i '1idede'
 
 #      - name: pull-request
 #        if: ${{ success() }}
