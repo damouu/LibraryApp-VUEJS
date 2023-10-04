@@ -51,11 +51,7 @@ jobs:
       - name: TestsPassed
         if: ${{ success() }}
         uses: DamianReeves/write-file-action@v1.2
-        with:
-          path: ./README.md
-          write-mode: overwrite
-          contents: |
-            console.log('some contents')
+        run: git commit --amend -m "Done TestsPassed"
 
 #      - name: pull-request
 #        if: ${{ success() }}
