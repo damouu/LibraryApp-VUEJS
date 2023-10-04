@@ -52,7 +52,7 @@ jobs:
         if: ${{ success() }}
         uses: actions/checkout@v3
       - name: Change something
-        run: echo -n "dede" | cat > ./.github/text.txt
+        run: echo -n "pepepe" | cat > ./.github/text.txt
 
 #      - name: pull-request
 #        if: ${{ success() }}
