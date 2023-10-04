@@ -52,7 +52,7 @@ jobs:
         if: ${{ success() }}
         uses: actions/checkout@v3
       - name: Change something
-        run: pwd
+        run: pwd | ls
 
 #      - name: pull-request
 #        if: ${{ success() }}
