@@ -92,7 +92,7 @@ onUnmounted(() => {
 
 function handleScroll(): void {
   let element = scrollComponent.value
-  if (element.getBoundingClientRect().bottom < window.innerHeight && bookStore.bookList.length >= 20) {
+  if (element.getBoundingClientRect().bottom < window.innerHeight && booksCount.value >= 20) {
     bookStore.fetchMoreBooks();
   }
 }
