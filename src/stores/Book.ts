@@ -8,7 +8,7 @@ export const useBookStore = defineStore('book', () => {
         const axios = inject('axios');
         const pageNumber: Number = ref(0);
         const sizeNumber: Number = ref(20);
-        const book = reactive<Book>({});
+        const book: Book = reactive<Book>({});
         const bookList: Array<Book> = reactive<Book[]>([]);
 
         /**
@@ -61,7 +61,6 @@ export const useBookStore = defineStore('book', () => {
          * @return {Promise} Promise object with the found book if te given UUID exist in the database.
          */
         async function getBookUUID(uuid: string): Promise<Book> {
-
             try {
                 await axios.get('/book/' + uuid).then(response => {
                     book.uuid = response.data.uuid
