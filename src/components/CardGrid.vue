@@ -90,6 +90,16 @@ onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll)
 })
 
+watch(() => props.input,
+    (value) => {
+      if (!value) {
+        for (let x in bookStore.book) {
+          bookStore.book[x] = undefined
+        }
+      }
+    },
+    {deep: true})
+
 function handleScroll(): void {
   let element = scrollComponent.value
   if (element.getBoundingClientRect().bottom < window.innerHeight && booksCount.value >= 20) {
