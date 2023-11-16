@@ -8,7 +8,7 @@
     </div>
   </section>
   <section class="row">
-    <main>
+    <main class="ms-4">
       <CardGrid :input="inputReceived"/>
     </main>
   </section>
