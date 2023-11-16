@@ -75,6 +75,27 @@ export const useBookStore = defineStore('book', () => {
             }
         }
 
-        return {bookList, fetchMoreBooks, getBooks, getBookUUID, book}
+        /**
+         * searches for a specific book by the given UUID passes as a parameter if the given UUID exist in the database.
+         *
+         * @author damouu <mouadsehbaoui@gmail.com>
+         * @param {string} title - the title of a given book.
+         * @throws {NotFound} - resource not found with given UUID
+         * @return {Promise} Promise object with the found book if te given UUID exist in the database.
+         */
+        async function getBookTitle(title: string): Promise<Book> {
+            try {
+                await axios.get('/book' + '?page=1&size=20', {params: {title: title}}).then(response => {
+                    bookListTitle.length = 0
+                    response.data.forEach(book => {
+                        bookListTitle.push(new Book(book.uuid, book.totalPages, book.title, book.publisher, book.genre, book.created_at, book.author));
+                    });
+                })
+            } catch (e) {
+                return false;
+            }
+        }
+
+        return {bookList, fetchMoreBooks, getBooks, getBookUUID, book, getBookTitle, bookListTitle}
     }
 )
