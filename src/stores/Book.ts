@@ -10,6 +10,7 @@ export const useBookStore = defineStore('book', () => {
         const sizeNumber: Number = ref(20);
         const book: Book = reactive<Book>({});
         const bookList: Array<Book> = reactive<Book[]>([]);
+        let bookListTitle: Array<Book> = reactive<Book[]>([]);
 
         /**
          * fetches to the database through an HTTP request, a specific research by passing an integer named pageNumber and
