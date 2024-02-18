@@ -132,4 +132,5 @@ watch(() => props.input,
     },
     {deep: true})
 
+//todo turn the whole d-inline-block offset-5 DIV/SECTION into a new component.
 </script>
