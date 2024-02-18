@@ -70,22 +70,6 @@ const props = defineProps({input: String,})
 const wordUpperCase = ref<string | null>(null);
 bookStore.getBooks(1, 20);
 
-
-/**
- * when searching a new book, the previous stored results will be deleted and remove from the BookStore.
- *
- * @author damouu <mouadsehbaoui@gmail.com>
- * @param {string} searchText - a unique identifier ID associated to a unique Book resource in the Book table.
- */
-// watch(props.input, (newValue) => {
-//   if (newValue == null) {
-//     bookStore.bookListTitle.length = 0
-//     for (let x in bookStore.book) {
-//       bookStore.book[x] = undefined
-//     }
-//   }
-// })
-
 /**
  * when searching a new book, the previous stored results will be deleted and remove from the BookStore.
  *
