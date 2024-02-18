@@ -71,10 +71,11 @@ const wordUpperCase = ref<string | null>(null);
 bookStore.getBooks(1, 20);
 
 /**
- * when searching a new book, the previous stored results will be deleted and remove from the BookStore.
+ * Retrieves a book by either; a UUID or by keywords. when searching by words, each of every word's first letter
+ * will be capitalized.
  *
  * @author damouu <mouadsehbaoui@gmail.com>
- * @param {string} searchText - a unique identifier ID associated to a unique Book resource in the Book table.
+ * @param {string} searchText - a unique identifier ID associated to a unique Book resource in the Book table. or a given keywords.
  */
 function searchBook(searchText) {
   if (searchText[8] == '-' && searchText[13] == '-' && searchText[18] == '-' && searchText[23] == '-') {
