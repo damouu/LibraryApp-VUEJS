@@ -1,7 +1,6 @@
 <template>
-  <input v-model="searchText" type="text" @input="onInput"/>
   <div class="d-flex mb-3">
-    <div class="d-inline-block">
+    <div class="d-inline-block offset-5">
       <p>Number of books found: &nbsp; </p>
     </div>
     <div class="d-inline-block">
@@ -62,7 +61,6 @@
 <script setup lang="ts">
 import {onMounted, onUnmounted, onUpdated, ref, watch} from "vue";
 import {useBookStore} from "@/stores/Book";
-import debounce from "lodash/debounce"
 
 const bookStore = useBookStore();
 const scrollComponent = ref(null);
@@ -71,23 +69,29 @@ const booksCount = ref<number>(null)
 const props = defineProps({input: String,})
 const wordUpperCase = ref<string | null>(null);
 bookStore.getBooks(1, 20);
-const searchText = ref<String>("");
 
-const onInput = debounce(() => {
-  if (searchText.value) {
-    searchBook(searchText.value)
-  }
-}, 1000)
 
-watch(searchText, (newValue) => {
-  if (newValue == 0) {
-    bookStore.bookListTitle.length = 0
-    for (let x in bookStore.book) {
-      bookStore.book[x] = undefined
-    }
-  }
-})
+/**
+ * when searching a new book, the previous stored results will be deleted and remove from the BookStore.
+ *
+ * @author damouu <mouadsehbaoui@gmail.com>
+ * @param {string} searchText - a unique identifier ID associated to a unique Book resource in the Book table.
+ */
+// watch(props.input, (newValue) => {
+//   if (newValue == null) {
+//     bookStore.bookListTitle.length = 0
+//     for (let x in bookStore.book) {
+//       bookStore.book[x] = undefined
+//     }
+//   }
+// })
 
+/**
+ * when searching a new book, the previous stored results will be deleted and remove from the BookStore.
+ *
+ * @author damouu <mouadsehbaoui@gmail.com>
+ * @param {string} searchText - a unique identifier ID associated to a unique Book resource in the Book table.
+ */
 function searchBook(searchText) {
   if (searchText[8] == '-' && searchText[13] == '-' && searchText[18] == '-' && searchText[23] == '-') {
     bookStore.getBookUUID(searchText)
@@ -106,6 +110,11 @@ function searchBook(searchText) {
   }
 }
 
+/**
+ * new book's data will be fetched as the user scroll the page.
+ *
+ * @author damouu <mouadsehbaoui@gmail.com>
+ */
 function handleScroll(): void {
   let element = scrollComponent.value
   if (element.getBoundingClientRect().bottom < window.innerHeight && booksCount.value >= 20) {
@@ -127,7 +136,10 @@ onUnmounted(() => {
 
 watch(() => props.input,
     (value) => {
-      if (!value) {
+      if (value) {
+        searchBook(value);
+      } else if (value == null) {
+        bookStore.bookListTitle.length = 0
         for (let x in bookStore.book) {
           bookStore.book[x] = undefined
         }
