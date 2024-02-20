@@ -6,9 +6,6 @@
     <div class="d-inline-block">
       <h5 class="text-primary"> {{ booksCount }} </h5>
     </div>
-    <div>
-      <span v-if="booksCount == 0" class="text-danger">No result found with title: {{ props.input }}</span>
-    </div>
   </div>
   <div ref="carousel">
     <div v-if="bookStore.bookListTitle.length == 0  && bookStore.book.uuid == null">
@@ -65,9 +62,10 @@ import {useBookStore} from "@/stores/Book";
 const bookStore = useBookStore();
 const scrollComponent = ref(null);
 const carousel = ref<HTMLDivElement>(null);
-const booksCount = ref<number>(null)
-const props = defineProps({input: String,})
+const booksCount = ref<number>(null);
+const props = defineProps({input: String,});
 const wordUpperCase = ref<string | null>(null);
+const emit = defineEmits<{ (e: 'booksNotFound', userInput: String) }>()
 bookStore.getBooks(1, 20);
 
 /**
@@ -79,21 +77,36 @@ bookStore.getBooks(1, 20);
  */
 function searchBook(searchText) {
   if (searchText[8] == '-' && searchText[13] == '-' && searchText[18] == '-' && searchText[23] == '-') {
-    bookStore.getBookUUID(searchText)
+    bookStore.getBookUUID(searchText).then(
+        function (value) {
+          emit('booksNotFound', false);
+        },
+        function (error) {
+          emit('booksNotFound', true);
+        }
+    );
   } else if (searchText?.length > 0) {
-    let words = searchText?.split(" ")
+    let words = searchText?.split(" ");
     words.forEach((value, index, array) => {
       if (array[value] != typeof undefined) {
         array[index] = value.charAt(0).toUpperCase() + value.substring(1)
       }
     })
-    words = words.join(' ')
-    wordUpperCase.value = words
-    bookStore.getBookTitle(wordUpperCase.value)
+    words = words.join(' ');
+    wordUpperCase.value = words;
+    bookStore.getBookTitle(wordUpperCase.value).then(
+        function (value) {
+          emit('booksNotFound', false);
+        },
+        function (error) {
+          emit('booksNotFound', true);
+        }
+    );
   } else {
-    wordUpperCase.value = null
+    wordUpperCase.value = null;
   }
 }
+
 
 /**
  * new book's data will be fetched as the user scroll the page.
@@ -101,22 +114,22 @@ function searchBook(searchText) {
  * @author damouu <mouadsehbaoui@gmail.com>
  */
 function handleScroll(): void {
-  let element = scrollComponent.value
+  let element = scrollComponent.value;
   if (element.getBoundingClientRect().bottom < window.innerHeight && booksCount.value >= 20) {
     bookStore.fetchMoreBooks();
   }
 }
 
 onMounted(() => {
-  window.addEventListener("scroll", handleScroll)
+  window.addEventListener("scroll", handleScroll);
 })
 
 onUpdated(() => {
-  booksCount.value = carousel.value.children[0].children[0].children.length
+  booksCount.value = carousel.value.children[0].children[0].children.length;
 })
 
 onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll)
+  window.removeEventListener("scroll", handleScroll);
 })
 
 watch(() => props.input,
@@ -132,5 +145,4 @@ watch(() => props.input,
     },
     {deep: true})
 
-//todo turn the whole d-inline-block offset-5 DIV/SECTION into a new component.
 </script>
