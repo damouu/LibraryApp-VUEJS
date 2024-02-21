@@ -136,7 +136,8 @@ watch(() => props.input,
     (value) => {
       if (value) {
         searchBook(value);
-      } else if (value == null) {
+      } else if (value == null && bookStore.bookList.length > 0) {
+        emit('booksNotFound', false);
         bookStore.bookListTitle.length = 0
         for (let x in bookStore.book) {
           bookStore.book[x] = undefined
