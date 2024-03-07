@@ -24,7 +24,7 @@
       </div>
     </div>
     <div v-else-if="bookStore.bookListTitle.length > 0">
-      <div ref="scrollComponent" class="row row-cols-1 row-cols-md-5 g-4 mb-5">
+      <div class="row row-cols-1 row-cols-md-5 g-4 mb-5">
         <div v-for="book in bookStore.bookListTitle" :key="book.uuid">
           <div class="col">
             <div class="card" style="width: 18rem;">
@@ -39,7 +39,7 @@
       </div>
     </div>
     <div v-else>
-      <div ref="scrollComponent" class="row row-cols-1 row-cols-md-5 g-4 mb-5">
+      <div class="row row-cols-1 row-cols-md-5 g-4 mb-5">
         <div class="col">
           <div class="card" style="width: 18rem;">
             <img alt="..." class="card-img-top" src="../assets/pokemon-pokemon-red-and-blue-wallpaper-preview.jpg">
@@ -115,7 +115,7 @@ function searchBook(searchText) {
  */
 function handleScroll(): void {
   let element = scrollComponent.value;
-  if (element.getBoundingClientRect().bottom < window.innerHeight && booksCount.value >= 20) {
+  if (element.getBoundingClientRect().bottom < window.innerHeight) {
     bookStore.fetchMoreBooks();
   }
 }
