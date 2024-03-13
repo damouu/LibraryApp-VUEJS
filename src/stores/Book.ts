@@ -54,6 +54,27 @@ export const useBookStore = defineStore('book', () => {
 
 
         /**
+         * fetches the next page of Book from the database and stores the result into the Book's store.
+         *
+         * @author @Damou
+         * @exception {errors}  will throw an exception if the given uuid does not correspond to an existing book.
+         * @return {Promise} will return a promise containing the searched book if the UUID exist in the database
+         */
+        async function fetchMoreBooksTitle(title) {
+            try {
+                await axios.get('/book' + '?page=' + (pageNumber.value += 1) + '&size=' + sizeNumber.value, {params: {title: title}}).then(response => {
+                    bookListTitle.length = 0
+                    response.data.forEach(book => {
+                        bookListTitle.push(new Book(book.uuid, book.totalPages, book.title, book.publisher, book.genre, book.created_at, book.author));
+                    });
+                })
+                return Promise.resolve(200);
+            } catch (e) {
+                return Promise.reject("error");
+            }
+        }
+
+        /**
          * searches for a specific book by the given UUID passes as a parameter if the given UUID exist in the database.
          *
          * @author damouu <mouadsehbaoui@gmail.com>
@@ -97,6 +118,6 @@ export const useBookStore = defineStore('book', () => {
             }
         }
 
-        return {bookList, fetchMoreBooks, getBooks, getBookUUID, book, getBookTitle, bookListTitle}
+        return {bookList, fetchMoreBooks, getBooks, getBookUUID, book, getBookTitle, bookListTitle, fetchMoreBooksTitle}
     }
 )
