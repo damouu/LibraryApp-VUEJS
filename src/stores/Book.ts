@@ -90,7 +90,8 @@ export const useBookStore = defineStore('book', () => {
                     book.title = response.data.title
                     book.genre = response.data.genre
                     book.created_at = response.data.created_at
-                    book.totalPages = response.data.totalPages
+                    book.totalPages = response.data.total_pages
+                    book.studentIdCard = response.data.studentCard.studentCardUUID
                 })
             } catch (e) {
                 return e
