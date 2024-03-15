@@ -9,14 +9,8 @@
 
 <script lang="ts" setup>
 
-import {onMounted} from "vue";
-import {useRoute} from "vue-router";
 import {useBookStore} from "@/stores/Book";
 
 const bookStore = useBookStore();
 
-onMounted(() => {
-  bookStore.getBookUUID(useRoute().params.bookUUID);
-
-})
 </script>
