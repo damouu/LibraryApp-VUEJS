@@ -5,6 +5,7 @@ import {Student} from "@/types/Student";
 export const useStudentStore = defineStore('student', () => {
     const axios = inject('axios');
     const sizeNumber: Number = ref(10);
+    const student: Student = reactive<Student>({});
     const studentList: Array<Student> = reactive<Student[]>([]);
 
     async function getStudents(page: Number): void {
@@ -25,5 +26,19 @@ export const useStudentStore = defineStore('student', () => {
         }
     }
 
-    return {studentList, getStudents}
+    async function getStudentIdCard(studentIdCard: String): Promise {
+        try {
+            await axios.get('/api/studentCard/' + studentIdCard).then(response => {
+                student.uuid = response.data.student.uuid;
+                student.name = response.data.student.name;
+                student.email = response.data.student.email;
+                student.dob = response.data.student.dob;
+            });
+            return Promise.resolve(200);
+        } catch (e) {
+            return Promise.reject("error");
+        }
+    }
+
+    return {studentList, getStudents, getStudentIdCard}
 })
