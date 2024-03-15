@@ -18,7 +18,8 @@
                 <img alt="..." class="card-img-top" src="../assets/pokemon-pokemon-red-and-blue-wallpaper-preview.jpg">
                 <div class="card-body">
                   <h5 class="card-title text-primary"> {{ book.title }} 📕</h5>
-                  <p class="card-text">{{ book.genre }}, {{ book.publisher }}, {{ book.totalPages }}, </p>
+                  <p class="card-text">Author : {{ book.author }} </p>
+                  <p class="card-text">Published in : {{ book.created_at }} </p>
                 </div>
               </RouterLink>
             </div>
@@ -31,11 +32,15 @@
         <div v-for="book in bookStore.bookListTitle" :key="book.uuid">
           <div class="col">
             <div class="card" style="width: 18rem;">
-              <img alt="..." class="card-img-top" src="../assets/pokemon-pokemon-red-and-blue-wallpaper-preview.jpg">
-              <div class="card-body">
-                <h5 class="card-title text-primary"> {{ book.title }} 📕</h5>
-                <p class="card-text">{{ book.genre }}, {{ book.publisher }}, {{ book.totalPages }}, </p>
-              </div>
+              <RouterLink :to="{ name: 'book', params: { bookUUID: book.uuid}}" aria-current="page"
+                          class="nav-link active">
+                <img alt="..." class="card-img-top" src="../assets/pokemon-pokemon-red-and-blue-wallpaper-preview.jpg">
+                <div class="card-body">
+                  <h5 class="card-title text-primary"> {{ book.title }} 📕</h5>
+                  <p class="card-text">Author : {{ book.author }} </p>
+                  <p class="card-text">Published in : {{ book.created_at }} </p>
+                </div>
+              </RouterLink>
             </div>
           </div>
         </div>
@@ -45,12 +50,15 @@
       <div class="row row-cols-1 row-cols-md-5 g-4 mb-5">
         <div class="col">
           <div class="card" style="width: 18rem;">
-            <img alt="..." class="card-img-top" src="../assets/pokemon-pokemon-red-and-blue-wallpaper-preview.jpg">
-            <div class="card-body">
-              <h5 class="card-title text-primary"> {{ bookStore.book.title }} 📕</h5>
-              <p class="card-text">{{ bookStore.book.genre }}, {{ bookStore.book.publisher }},
-                {{ bookStore.book.totalPages }}, </p>
-            </div>
+            <RouterLink :to="{ name: 'book', params: { bookUUID: bookStore.book.uuid}}" aria-current="page"
+                        class="nav-link active">
+              <img alt="..." class="card-img-top" src="../assets/pokemon-pokemon-red-and-blue-wallpaper-preview.jpg">
+              <div class="card-body">
+                <h5 class="card-title text-primary"> {{ bookStore.book.title }} 📕</h5>
+                <p class="card-text">Author : {{ bookStore.book.author }} </p>
+                <p class="card-text">Published in : {{ bookStore.book.created_at }} </p>
+              </div>
+            </RouterLink>
           </div>
         </div>
       </div>
