@@ -1,33 +1,42 @@
 <template>
-  <div class="row gy-4">
-    <TitleMessage/>
-    <section class="mb-4 col-4">
-      <ResourceArt/>
+  <div class="row mt-5">
+    <section class="mb-4 col-3 offset-1">
+      <article>
+        <ResourceArt/>
+      </article>
     </section>
-    <section class="col-4 offset-2">
-      <ResourceDataShow/>
+    <section class="col-6 offset-2">
+      <article>
+        <ResourceDataShow/>
+      </article>
+      <article>
+        <div v-if="bookStore.book.studentIdCard">
+          <div class="col-6 mt-5">
+            <UserDataShow/>
+          </div>
+        </div>
+        <div v-else>
+          <BorrowBookButton class="col-2 mt-5"/>
+        </div>
+      </article>
     </section>
-    <div v-if="bookStore.book.studentIdCard">
-      <section class="col-7 offset-6">
-        <UserDataShow/>
-      </section>
-    </div>
-    <div v-else>
-      <section class="col-7 offset-6">
-        <BorrowBookButton/>
-      </section>
-    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import TitleMessage from "@/components/TitleMessage.vue";
 import ResourceArt from "@/components/RessourceArt.vue";
 import ResourceDataShow from "@/components/RessourceDataShow.vue";
 import UserDataShow from "@/components/UserDataShow.vue";
 import BorrowBookButton from "@/components/BorrowBookButton.vue";
 import {useBookStore} from "@/stores/Book";
+import {onBeforeMount} from "vue";
+import {useRoute} from "vue-router";
 
 const bookStore = useBookStore();
+
+onBeforeMount(() => {
+  bookStore.getBookUUID(useRoute().params.bookUUID);
+
+})
 
 </script>
