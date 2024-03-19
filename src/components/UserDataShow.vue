@@ -1,8 +1,10 @@
 <template>
-  <h3>User data :</h3>
+  <h3 class="text-primary">User data </h3>
+  <br>
   <RouterLink :to="{ name: 'UserView', params: { userUUID: bookStore.book.studentIdCard }}" aria-current="page"
               class="nav-link active">
-    <h4>UUID : {{ bookStore.book.studentIdCard }}</h4>
+
+    <h5 class="text-success">{{ bookStore.book.studentIdCard }}</h5>
   </RouterLink>
 </template>
 
