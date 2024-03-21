@@ -85,12 +85,13 @@ export const useBookStore = defineStore('book', () => {
         async function getBookUUID(uuid: string): Promise<Book> {
             try {
                 await axios.get('/book/' + uuid).then(response => {
-                    book.uuid = response.data.uuid
-                    book.author = response.data.author
-                    book.title = response.data.title
-                    book.genre = response.data.genre
-                    book.created_at = response.data.created_at
-                    book.totalPages = response.data.total_pages
+                    book.uuid = response.data.book.UUID;
+                    book.author = response.data.book.author;
+                    book.title = response.data.book.title;
+                    book.genre = response.data.book.genre;
+                    book.created_at = response.data.book.created_at;
+                    book.totalPages = response.data.book.total_pages;
+                    book.publisher = response.data.book.publisher
                     if (response.data.studentCard.studentCardUUID) {
                         book.studentIdCard = response.data.studentCard.studentCardUUID
                     }
