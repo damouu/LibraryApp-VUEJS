@@ -7,6 +7,8 @@
   <br>
   <h4>Genre : {{ bookStore.book.genre }}</h4>
   <br>
+  <h4>Publisher : {{ bookStore.book.publisher }}</h4>
+  <br>
   <h4>Published date : {{ bookStore.book.created_at }}</h4>
   <br>
   <h4>Total number of pages : {{ bookStore.book.totalPages }}</h4>
