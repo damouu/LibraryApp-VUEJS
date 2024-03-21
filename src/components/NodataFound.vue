@@ -1,7 +1,8 @@
 <template>
-  <div class="d-flex mb-3 offset-5">
+  <div class="d-flex mb-3 offset-4">
     <h5 class="text-danger">No result found with the word:</h5>
-    <h4 class="text-danger bg-warning ml-2"> {{ props.word }}</h4>
+    <pre>  </pre>
+    <h4 class="text-primary bg-warning ml-2"> {{ props.word }}</h4>
   </div>
 </template>
 
