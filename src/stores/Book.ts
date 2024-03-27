@@ -111,7 +111,7 @@ export const useBookStore = defineStore('book', () => {
          */
         async function getBookTitle(title: string): Promise<Book> {
             try {
-                await axios.get('/book' + '?page=1&size=20', {params: {title: title}}).then(response => {
+                await axios.get('/book/search?search=' + title).then(response => {
                     bookListTitle.length = 0
                     response.data.forEach(book => {
                         bookListTitle.push(new Book(book.uuid, book.totalPages, book.title, book.publisher, book.genre, book.created_at, book.author));
