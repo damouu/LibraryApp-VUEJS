@@ -1,10 +1,13 @@
 <template>
   <section class="row">
-    <div class="offset-4 col-4 mb-5 mt-5">
+    <div class="offset-4 col-4 mb-1 mt-5">
       <TitleMessage title="Books gallery"/>
-      <div>
-        <Search @inputEmit="pageEmitReceived"/>
-      </div>
+    </div>
+    <div class="offset-4 col-4 mb-5">
+      <Search @inputEmit="pageEmitReceived"/>
+    </div>
+    <div class="col-1 offset-1">
+      <QueryParamsButton/>
     </div>
   </section>
   <div v-show="booksNotFound">
@@ -30,6 +33,7 @@ import TitleMessage from "@/components/TitleMessage.vue";
 import Search from "@/components/SearchBar.vue";
 import NodataFound from "@/components/NodataFound.vue";
 import {ref} from "vue";
+import QueryParamsButton from "@/components/FilterButton.vue";
 
 let inputReceived: String = ref(null);
 let booksNotFound: Boolean = ref(null);
@@ -41,4 +45,5 @@ function pageEmitReceived(inputEmit): void {
 function bookEmitReceived(bookEmit): void {
   booksNotFound.value = bookEmit;
 }
+
 </script>
