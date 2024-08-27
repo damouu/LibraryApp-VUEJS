@@ -1,13 +1,13 @@
 export class Book {
     private _uuid: string;
-    private _totalPages: Number;
+    private _totalPages: number;
     private _title: string;
     private _publisher: string;
-    private _genre: String;
-    private _created_at: String;
-    private _author: String;
+    private _genre: string;
+    private _created_at: string;
+    private _author: string;
 
-    constructor(uuid: string, totalPages: Number, title: string, publisher: string, genre: String, created_at: String, author: String) {
+    constructor(uuid: string, totalPages: number, title: string, publisher: string, genre: string, created_at: string, author: string) {
         this._uuid = uuid;
         this._totalPages = totalPages;
         this._title = title;
@@ -25,11 +25,11 @@ export class Book {
         this._uuid = value;
     }
 
-    get totalPages(): Number {
+    get totalPages(): number {
         return this._totalPages;
     }
 
-    set totalPages(value: Number) {
+    set totalPages(value: number) {
         this._totalPages = value;
     }
 
@@ -49,27 +49,27 @@ export class Book {
         this._publisher = value;
     }
 
-    get genre(): String {
+    get genre(): string {
         return this._genre;
     }
 
-    set genre(value: String) {
+    set genre(value: string) {
         this._genre = value;
     }
 
-    get created_at(): String {
+    get created_at(): string {
         return this._created_at;
     }
 
-    set created_at(value: String) {
+    set created_at(value: string) {
         this._created_at = value;
     }
 
-    get author(): String {
+    get author(): string {
         return this._author;
     }
 
-    set author(value: String) {
+    set author(value: string) {
         this._author = value;
     }
 }

@@ -5,8 +5,8 @@ import {Book} from "@/types/Book";
 export const useBookStore = defineStore('book', () => {
 
     const axios = inject('axios');
-    const pageNumber: Number = ref(0);
-    const sizeNumber: Number = ref(20);
+    const pageNumber: number = ref(0);
+    const sizeNumber: number = ref(20);
     const bookList: Array<Book> = reactive<Book[]>([]);
 
     async function getBooks(): void {
@@ -15,7 +15,9 @@ export const useBookStore = defineStore('book', () => {
                 response.data.forEach(book => {
                     bookList.push(new Book(book.uuid, book.totalPages, book.title, book.publisher, book.genre, book.created_at, book.author));
                 });
-            })
+            });
+        } finally {
+            console.log(bookList);
         }
     }
 
@@ -25,9 +27,11 @@ export const useBookStore = defineStore('book', () => {
                 response.data.forEach(book => {
                     bookList.push(new Book(book.uuid, book.totalPages, book.title, book.publisher, book.genre, book.created_at, book.author));
                 });
-            })
+            });
+        } finally {
+            console.log("dede");
         }
     }
 
-    return {bookList, fetchMoreBooks, getBooks}
-})
+    return {bookList, fetchMoreBooks, getBooks};
+});

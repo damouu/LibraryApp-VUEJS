@@ -1,5 +1,5 @@
-import {createRouter, createWebHistory} from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import {createRouter, createWebHistory} from 'vue-router';
+import HomeView from '../views/HomeView.vue';
 import DataView from "@/components/DataView.vue";
 import NewsView from "@/views/NewsView.vue";
 import StudentView from "@/views/StudentView.vue";
@@ -35,6 +35,6 @@ const router = createRouter({
             props: true,
         }
     ]
-})
+});
 
-export default router
+export default router;
