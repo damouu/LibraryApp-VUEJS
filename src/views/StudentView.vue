@@ -1,12 +1,7 @@
 <template>
-  <div class="row col-1">
-    <button class="btn btn-primary  border border-primary">
-      <i class="bi bi-person-circle"></i>
-    </button>
-  </div>
   <div class="row">
     <section class="mb-4">
-      <TitleMessage title="学生の情報に関しては以下に表示されております。"/>
+      <TitleMessage title="Student section "/>
     </section>
   </div>
   <div class="row">
