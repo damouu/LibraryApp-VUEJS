@@ -1,7 +1,7 @@
 <template>
   <section class="row">
     <div>
-      <TitleMessage title="フォトギャラリー"/>
+      <TitleMessage title="Books Section"/>
     </div>
   </section>
   <section class="row">
