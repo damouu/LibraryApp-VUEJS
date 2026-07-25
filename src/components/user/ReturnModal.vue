@@ -13,7 +13,7 @@
         <div class="modal-body text-center p-5">
           <i class="bi bi-exclamation-circle-fill display-1 text-primary mb-4"></i>
           <h4 class="mb-3 mt-4">選択された貸出を返却しますか？</h4>
-          <h5 class="text-muted">貸出番号: {{ borrowUuid }}</h5>
+          <h5 class="text-muted">貸出番号: {{ borrowUuid.split('-')[0] }}</h5>
         </div>
 
         <div class="modal-footer border-0 justify-content-center gap-4 pb-4">
