@@ -134,7 +134,7 @@ onMounted(async () => {
     needsReplace = true;
   }
   if (!query.sort) {
-    query.sort = 'firstPrintPublicationDate';
+    query.sort = 'firstPrintPublicationDate,desc';
     needsReplace = true;
   }
   if (!query.direction) {
@@ -154,7 +154,7 @@ async function fetchSeriesData(size: number | null = 12) {
   const pageFromUrl = route.query.page ? Number(route.query.page) : 1;
   const apiPage = pageFromUrl - 1;
 
-  const sortField = (route.query.sort as string) || 'firstPrintPublicationDate';
+  const sortField = (route.query.sort as string) || 'firstPrintPublicationDate,desc';
 
   const filters = {
     title: route.query.title as string || '',
@@ -177,7 +177,7 @@ async function handleFilterApply(newFilters: any) {
     query: {
       ...newFilters,
       page: 1,
-      sort: route.query.sort || 'firstPrintPublicationDate',
+      sort: route.query.sort || 'firstPrintPublicationDate,desc',
       direction: route.query.direction || 'desc'
     }
   });
@@ -216,7 +216,7 @@ async function removeFilter(filterKey: string) {
 async function clearAllFilters() {
   const defaultQuery = {
     page: '1',
-    sort: 'firstPrintPublicationDate',
+    sort: 'firstPrintPublicationDate,desc',
     direction: 'desc'
   };
 
