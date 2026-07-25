@@ -50,7 +50,7 @@
 
     <div v-else>
       <Transition name="fade" mode="out-in">
-        <div v-for="record in userStore.borrowHistory.content" :key="userStore.borrowHistory?.number"
+        <div v-for="record in userStore.borrowHistory.content" :key="record.borrowUuid"
              class=" mb-4 border-0 shadow-sm">
 
           <div class="bg-light d-flex justify-content-between align-items-center">
