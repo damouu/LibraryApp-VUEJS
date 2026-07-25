@@ -6,7 +6,11 @@ export class RecordService {
 
     static async getRecords(page: number, size: number): Promise<RecordResponse> {
         const response = await api.get("/records", {
-            params: {page, size}
+            params: {
+                page,
+                size,
+                sort: "borrowStartDate,desc"
+            }
         });
 
         return mapRecords(response.data);
