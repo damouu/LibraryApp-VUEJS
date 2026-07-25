@@ -1,116 +1,119 @@
 <template>
   <div class="history-container">
 
-    <div v-if="userStore.recordsLoading">
+    <Transition name="fade" mode="out-in">
 
-      <div v-for="i in 3" :key="i" class="mb-4 border-0 shadow-sm rounded placeholder-glow bg-white">
+      <div v-if="userStore.recordsLoading">
 
-        <div class="bg-light d-flex justify-content-between align-items-center p-3">
+        <div v-for="i in 3" :key="i" class="mb-4 border-0 shadow-sm rounded placeholder-glow bg-white">
 
-          <div>
-            <span class="placeholder col-5 d-block mb-2"></span>
-            <span class="placeholder col-4 d-block"></span>
+          <div class="bg-light d-flex justify-content-between align-items-center p-3">
+
+            <div>
+              <span class="placeholder col-5 d-block mb-2"></span>
+              <span class="placeholder col-4 d-block"></span>
+            </div>
+
+            <div
+                class="placeholder rounded-pill"
+                style="width:120px;height:38px;">
+            </div>
+
           </div>
 
-          <div
-              class="placeholder rounded-pill"
-              style="width:120px;height:38px;">
-          </div>
+          <div class="px-3 py-3">
 
-        </div>
+            <div class="d-flex gap-3 overflow-auto py-3">
 
-        <div class="px-3 py-3">
+              <div v-for="j in 4" :key="j" class="chapter-item text-center">
 
-          <div class="d-flex gap-3 overflow-auto py-3">
+                <div
+                    class="placeholder rounded shadow-sm mb-2"
+                    style="width:100px;height:140px;">
+                </div>
 
-            <div v-for="j in 4" :key="j" class="chapter-item text-center">
+                <span class="placeholder col-10 d-block mb-2"></span>
 
-              <div
-                  class="placeholder rounded shadow-sm mb-2"
-                  style="width:100px;height:140px;">
+                <span class="placeholder col-6 d-block mx-auto"></span>
+
               </div>
 
-              <span class="placeholder col-10 d-block mb-2"></span>
-
-              <span class="placeholder col-6 d-block mx-auto"></span>
-
             </div>
-
           </div>
+
         </div>
 
       </div>
 
-    </div>
+      <div v-else-if="!userStore.borrowHistory?.content?.length" class="text-center my-5">
+        <i class="bi bi-archive h1 text-muted"></i>
+        <p>貸出履歴はありません。</p>
+      </div>
 
-    <div v-else-if="!userStore.borrowHistory?.content?.length" class="text-center my-5">
-      <i class="bi bi-archive h1 text-muted"></i>
-      <p>貸出履歴はありません。</p>
-    </div>
+      <div v-else>
+        <div v-for="record in userStore.borrowHistory.content" :key="record.borrowUuid"
+             class=" mb-4 border-0 shadow-sm">
 
-    <div v-else>
-      <div v-for="record in userStore.borrowHistory.content" :key="record.borrowUuid" class=" mb-4 border-0 shadow-sm">
+          <div class="bg-light d-flex justify-content-between align-items-center">
 
-        <div class="bg-light d-flex justify-content-between align-items-center">
-
-          <div class="rounded-circle">
-            <span class="small text-muted d-block ">注文番号: {{ record.borrowUuid.split('-')[0] }}</span>
-            <span class="badge rounded-pill bg-dark">
+            <div class="rounded-circle">
+              <span class="small text-muted d-block ">注文番号: {{ record.borrowUuid.split('-')[0] }}</span>
+              <span class="badge rounded-pill bg-dark">
               {{ record.borrowStartDate }} 〜 {{ record.borrowEndDate }}
             </span>
+            </div>
+
+            <div v-if="record.borrowReturnDate !== 'null' && record.borrowReturnDate && record.returnLately">
+              <span class="badge rounded-pill bg-danger fs-6 p-2">期限超過 (返却済)</span>
+            </div>
+
+            <div v-else-if="(record.borrowReturnDate === 'null' || !record.borrowReturnDate) && record.returnLately">
+              <span class="badge rounded-pill bg-warning text-dark fs-6 p-2">未返却</span>
+            </div>
+
+            <div v-else-if="record.borrowReturnDate !== 'null' && record.borrowReturnDate && !record.returnLately">
+              <span class="badge rounded-pill bg-success fs-6 p-2">期日内返却</span>
+            </div>
+
+            <div v-if="record.borrowReturnDate === null || record.borrowReturnDate === 'null'">
+              <button @click="openReturnModal(record.borrowUuid)" class="btn btn-sm btn-warning fw-bold shadow-sm">
+                返却する
+              </button>
+            </div>
+
+            <div v-else>
+              <div class="text-end">
+                <span class="badge bg-success d-block mb-1">返却済み </span>
+                <small class="text-muted m-lg-3" style="font-size: 1rem;">返却日: {{ record.borrowReturnDate }}</small>
+              </div>
+            </div>
+
           </div>
 
-          <div v-if="record.borrowReturnDate !== 'null' && record.borrowReturnDate && record.returnLately">
-            <span class="badge rounded-pill bg-danger fs-6 p-2">期限超過 (返却済)</span>
-          </div>
+          <div class="">
+            <div class="d-flex gap-3 overflow-auto py-2">
+              <div v-for="chapter in record.chapters" :key="chapter.chapterUuid" class="chapter-item">
 
-          <div v-else-if="(record.borrowReturnDate === 'null' || !record.borrowReturnDate) && record.returnLately">
-            <span class="badge rounded-pill bg-warning text-dark fs-6 p-2">未返却</span>
-          </div>
+                <router-link
+                    :to="{ name: 'chapter-details', params: { chapterUuid: chapter.chapterUuid }}"
+                    class="text-decoration-none text-reset"
+                >
 
-          <div v-else-if="record.borrowReturnDate !== 'null' && record.borrowReturnDate && !record.returnLately">
-            <span class="badge rounded-pill bg-success fs-6 p-2">期日内返却</span>
-          </div>
+                  <img :src="chapter.coverArtworkUrl"
+                       :alt="chapter.title"
+                       class="rounded shadow-sm mb-2"
+                       style="width: 100px; height: 140px; object-fit: cover;">
+                  <h6 class="mb-0 text-truncate" style="max-width: 100px;">{{ chapter.title }}</h6>
+                  <small class="text-muted">第 {{ chapter.chapterNumber }} 巻</small>
 
-          <div v-if="record.borrowReturnDate === null || record.borrowReturnDate === 'null'">
-            <button @click="openReturnModal(record.borrowUuid)" class="btn btn-sm btn-warning fw-bold shadow-sm">
-              返却する
-            </button>
-          </div>
-
-          <div v-else>
-            <div class="text-end">
-              <span class="badge bg-success d-block mb-1">返却済み </span>
-              <small class="text-muted m-lg-3" style="font-size: 1rem;">返却日: {{ record.borrowReturnDate }}</small>
+                </router-link>
+              </div>
             </div>
           </div>
 
         </div>
-
-        <div class="">
-          <div class="d-flex gap-3 overflow-auto py-2">
-            <div v-for="chapter in record.chapters" :key="chapter.chapterUuid" class="chapter-item">
-
-              <router-link
-                  :to="{ name: 'chapter-details', params: { chapterUuid: chapter.chapterUuid }}"
-                  class="text-decoration-none text-reset"
-              >
-
-                <img :src="chapter.coverArtworkUrl"
-                     :alt="chapter.title"
-                     class="rounded shadow-sm mb-2"
-                     style="width: 100px; height: 140px; object-fit: cover;">
-                <h6 class="mb-0 text-truncate" style="max-width: 100px;">{{ chapter.title }}</h6>
-                <small class="text-muted">第 {{ chapter.chapterNumber }} 巻</small>
-
-              </router-link>
-            </div>
-          </div>
-        </div>
-
       </div>
-    </div>
-
+    </Transition>
     <ReturnModal
         v-if="showModal"
         :borrowUuid="selectedUuid"
