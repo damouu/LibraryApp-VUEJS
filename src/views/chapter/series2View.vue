@@ -96,7 +96,7 @@
               :page="0"
               :size="12"
               sort="publicationDate"
-              direction="asc"
+              direction="desc"
           />
         </div>
       </Transition>
@@ -145,7 +145,7 @@ onMounted(async () => {
   }
 
   if (!query.direction) {
-    query.direction = 'asc';
+    query.direction = 'desc';
     needsReplace = true;
   }
 
@@ -160,7 +160,7 @@ onMounted(async () => {
 async function fetchChaptersData(size: number) {
   const page = route.query.page ? Number(route.query.page) - 1 : 0;
 
-  const sortField = (route.query.sort as string) || 'publicationDate';
+  const sortField = (route.query.sort as string) || 'publicationDate,desc';
   const sortDir = (route.query.direction as string) || 'desc';
 
   const filters = {
@@ -181,7 +181,7 @@ async function fetchChaptersData(size: number) {
 
 async function handleFilterApply(newFilters: any) {
 
-  const sortField = (route.query.sort as string) || 'publicationDate';
+  const sortField = (route.query.sort as string) || 'publicationDate,desc';
   const sortDir = (route.query.direction as string) || 'desc';
   const page = 1;
   const size = (newFilters.chapterNumber && newFilters.chapterNumber !== '') ? 1 : 12;
