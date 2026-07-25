@@ -1,57 +1,56 @@
 <template>
   <div class="history-container">
 
-    <Transition name="fade" mode="out-in">
+    <div v-if="userStore.recordsLoading">
 
-      <div v-if="userStore.recordsLoading">
+      <div v-for="i in 3" :key="i" class="mb-4 border-0 shadow-sm rounded placeholder-glow bg-white">
 
-        <div v-for="i in 3" :key="i" class="mb-4 border-0 shadow-sm rounded placeholder-glow bg-white">
+        <div class="bg-light d-flex justify-content-between align-items-center p-3">
 
-          <div class="bg-light d-flex justify-content-between align-items-center p-3">
-
-            <div>
-              <span class="placeholder col-5 d-block mb-2"></span>
-              <span class="placeholder col-4 d-block"></span>
-            </div>
-
-            <div
-                class="placeholder rounded-pill"
-                style="width:120px;height:38px;">
-            </div>
-
+          <div>
+            <span class="placeholder col-5 d-block mb-2"></span>
+            <span class="placeholder col-4 d-block"></span>
           </div>
 
-          <div class="px-3 py-3">
-
-            <div class="d-flex gap-3 overflow-auto py-3">
-
-              <div v-for="j in 4" :key="j" class="chapter-item text-center">
-
-                <div
-                    class="placeholder rounded shadow-sm mb-2"
-                    style="width:100px;height:140px;">
-                </div>
-
-                <span class="placeholder col-10 d-block mb-2"></span>
-
-                <span class="placeholder col-6 d-block mx-auto"></span>
-
-              </div>
-
-            </div>
+          <div
+              class="placeholder rounded-pill"
+              style="width:120px;height:38px;">
           </div>
 
         </div>
 
+        <div class="px-3 py-3">
+
+          <div class="d-flex gap-3 overflow-auto py-3">
+
+            <div v-for="j in 4" :key="j" class="chapter-item text-center">
+
+              <div
+                  class="placeholder rounded shadow-sm mb-2"
+                  style="width:100px;height:140px;">
+              </div>
+
+              <span class="placeholder col-10 d-block mb-2"></span>
+
+              <span class="placeholder col-6 d-block mx-auto"></span>
+
+            </div>
+
+          </div>
+        </div>
+
       </div>
 
-      <div v-else-if="!userStore.borrowHistory?.content?.length" class="text-center my-5">
-        <i class="bi bi-archive h1 text-muted"></i>
-        <p>貸出履歴はありません。</p>
-      </div>
+    </div>
 
-      <div v-else>
-        <div v-for="record in userStore.borrowHistory.content" :key="record.borrowUuid"
+    <div v-else-if="!userStore.borrowHistory?.content?.length" class="text-center my-5">
+      <i class="bi bi-archive h1 text-muted"></i>
+      <p>貸出履歴はありません。</p>
+    </div>
+
+    <div v-else>
+      <Transition name="fade" mode="out-in">
+        <div v-for="record in userStore.borrowHistory.content" :key="userStore.borrowHistory?.number"
              class=" mb-4 border-0 shadow-sm">
 
           <div class="bg-light d-flex justify-content-between align-items-center">
@@ -112,8 +111,8 @@
           </div>
 
         </div>
-      </div>
-    </Transition>
+      </Transition>
+    </div>
     <ReturnModal
         v-if="showModal"
         :borrowUuid="selectedUuid"
