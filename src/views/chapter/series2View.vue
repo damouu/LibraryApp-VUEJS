@@ -161,7 +161,7 @@ async function fetchChaptersData(size: number) {
   const page = route.query.page ? Number(route.query.page) - 1 : 0;
 
   const sortField = (route.query.sort as string) || 'publicationDate';
-  const sortDir = (route.query.direction as string) || 'asc';
+  const sortDir = (route.query.direction as string) || 'desc';
 
   const filters = {
     title: route.query.title as string || '',
@@ -182,7 +182,7 @@ async function fetchChaptersData(size: number) {
 async function handleFilterApply(newFilters: any) {
 
   const sortField = (route.query.sort as string) || 'publicationDate';
-  const sortDir = (route.query.direction as string) || 'asc';
+  const sortDir = (route.query.direction as string) || 'desc';
   const page = 1;
   const size = (newFilters.chapterNumber && newFilters.chapterNumber !== '') ? 1 : 12;
 
@@ -234,8 +234,8 @@ async function clearAllFilters() {
   await router.push({
     query: {
       page: '1',
-      sort: 'publicationDate',
-      direction: 'asc'
+      sort: 'publicationDate, desc',
+      direction: 'desc'
     }
   });
   window.scrollTo({top: 0, behavior: 'smooth'});
