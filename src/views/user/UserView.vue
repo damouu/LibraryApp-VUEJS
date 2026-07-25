@@ -10,7 +10,8 @@
           <h4 class="mb-4">最近の貸出履歴</h4>
         </div>
         <BorrowHistory/>
-        <Pagination :total-pages="totalPages" :current-page="currentPage" :is-first="isFirst" :is-last="isLast"/>
+        <Pagination :total-pages="totalPages" :current-page="currentPage" :is-first="isFirst" :is-last="isLast"
+                    @change-page="changePage"/>
       </div>
 
     </div>
@@ -23,6 +24,7 @@ import UserProfile from '@/components/user/UserProfile.vue';
 import Pagination from "@/components/common/Pagination.vue";
 import {useUserStore} from "@/stores/User";
 import {computed} from "vue";
+import {RecordService} from "@/services/RecordService";
 
 const userStore = useUserStore();
 
@@ -30,5 +32,9 @@ const currentPage = computed(() => userStore.borrowHistory?.number ?? 0);
 const totalPages = computed(() => userStore.borrowHistory?.totalPages ?? 0);
 const isFirst = computed(() => userStore.borrowHistory?.first ?? true);
 const isLast = computed(() => userStore.borrowHistory?.last ?? true);
+
+const changePage = async (page: number) => {
+  userStore.borrowHistory = await RecordService.getRecords(page, 5);
+};
 
 </script>
